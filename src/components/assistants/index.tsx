@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import EnglishAssist from './englishAssist';
 import RussianAssist from './russianAssit';
 import RomanianAssist from './romanianAsists';
+import { PanaderoContext } from '../contextProvider';
 
 type Language = 'en' | 'ro' | 'ru';
 type ServiceType = 'chat' | 'voice';
@@ -17,9 +18,9 @@ interface ServiceOption {
 }
 
 const LANGUAGE_OPTIONS: LanguageOption[] = [
-  { value: 'en', label: 'English' },
-  { value: 'ro', label: 'Romanian' },
-  { value: 'ru', label: 'Russian' },
+  { value: import.meta.env.VITE_ENGLISH_LANGUAGE, label: 'English' },
+  { value: import.meta.env.VITE_ROMANIAN_LANGUAGE, label: 'Romanian' },
+  { value: import.meta.env.VITE_RUSSIAN_LANGUAGE, label: 'Russian' },
 ];
 
 const SERVICE_OPTIONS: ServiceOption[] = [
@@ -28,7 +29,8 @@ const SERVICE_OPTIONS: ServiceOption[] = [
 ];
 
 const Assistant = () => {
-  const [language, setLanguage] = useState<Language>('en');
+  const { language, setLanguage } = useContext(PanaderoContext);
+  // const [language, setLanguage] = useState<Language>('en');
   const [serviceType, setServiceType] = useState<ServiceType>('voice');
 
   const handleLanguageChange = useCallback(
@@ -99,14 +101,14 @@ const Assistant = () => {
       </div>
 
       {/* assstant */}
-      {language === 'en' ? (
+      {language === import.meta.env.VITE_ENGLISH_LANGUAGE ? (
         <EnglishAssist assistantType={serviceType} />
-      ) : language == 'ro' ? (
-        // <EnglishAssist assistantType={serviceType} />
-        <RussianAssist assistantType={serviceType} />
-      ) : (
+      ) : language === import.meta.env.VITE_ROMANIAN_LANGUAGE ? (
         // <EnglishAssist assistantType={serviceType} />
         <RomanianAssist assistantType={serviceType} />
+      ) : (
+        // <EnglishAssist assistantType={serviceType} />
+        <RussianAssist assistantType={serviceType} />
       )}
     </div>
   );
