@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "npx husky init && npx husky add .husky/pre-commit 'npx lint-staged'"
+    "prepare": "npx husky"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
