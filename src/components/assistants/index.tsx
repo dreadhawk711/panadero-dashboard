@@ -1,19 +1,15 @@
-import { useState, useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import EnglishAssist from './englishAssist';
 import RussianAssist from './russianAssit';
 import RomanianAssist from './romanianAsists';
 import { PanaderoContext } from '../contextProvider';
 
 type Language = 'en' | 'ro' | 'ru';
-type ServiceType = 'chat' | 'voice';
 
 interface LanguageOption {
   value: Language;
-  label: string;
-}
-
-interface ServiceOption {
-  value: ServiceType;
   label: string;
 }
 
@@ -23,28 +19,16 @@ const LANGUAGE_OPTIONS: LanguageOption[] = [
   { value: import.meta.env.VITE_RUSSIAN_LANGUAGE, label: 'Russian' },
 ];
 
-const SERVICE_OPTIONS: ServiceOption[] = [
-  { value: 'chat', label: 'Chat' },
-  { value: 'voice', label: 'Voice' },
-];
-
 const Assistant = () => {
-  const { language, setLanguage } = useContext(PanaderoContext);
+  const { language, showAssistant, setShowAssistant, setLanguage } =
+    useContext(PanaderoContext);
   // const [language, setLanguage] = useState<Language>('en');
-  const [serviceType, setServiceType] = useState<ServiceType>('voice');
 
   const handleLanguageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setLanguage(e.target.value as Language);
+      setLanguage?.(e.target.value as Language);
     },
-    []
-  );
-
-  const handleServiceTypeChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setServiceType(e.target.value as ServiceType);
-    },
-    []
+    [setLanguage]
   );
 
   return (
@@ -76,39 +60,39 @@ const Assistant = () => {
         </div>
       </div>
 
-      <div>
-        <label className="block font-semibold mb-2 text-gray-700 text-sm text-center">
-          Service Type
-        </label>
-        <div className="flex justify-around">
-          {SERVICE_OPTIONS.map((option) => (
-            <label
-              key={option.value}
-              className="flex items-center gap-2 cursor-pointer text-sm text-gray-700"
-            >
-              <input
-                type="radio"
-                name="serviceType"
-                value={option.value}
-                checked={serviceType === option.value}
-                onChange={handleServiceTypeChange}
-                className="cursor-pointer"
+      <div className="bg-transparent fixed top-3 left-3">
+        {showAssistant ? (
+          <button
+            onClick={() => setShowAssistant?.(false)}
+            className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors w-10 h-10 cursor-pointer"
+          >
+            <div className="flex items-center justify-center">
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                className="w-8 h-8"
+                size="lg"
               />
-              {option.label}
-            </label>
-          ))}
-        </div>
+            </div>
+          </button>
+        ) : (
+          <button
+            onClick={() => setShowAssistant?.(true)}
+            className="!bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors w-10 h-10 cursor-pointer"
+          >
+            <div className="flex items-center justify-center">
+              <FontAwesomeIcon icon={faEye} className="w-8 h-8" size="lg" />
+            </div>
+          </button>
+        )}
       </div>
 
       {/* assstant */}
       {language === import.meta.env.VITE_ENGLISH_LANGUAGE ? (
-        <EnglishAssist assistantType={serviceType} />
+        <EnglishAssist />
       ) : language === import.meta.env.VITE_ROMANIAN_LANGUAGE ? (
-        // <EnglishAssist assistantType={serviceType} />
-        <RomanianAssist assistantType={serviceType} />
+        <RomanianAssist />
       ) : (
-        // <EnglishAssist assistantType={serviceType} />
-        <RussianAssist assistantType={serviceType} />
+        <RussianAssist />
       )}
     </div>
   );
