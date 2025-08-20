@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import EnglishAssist from './englishAssist';
@@ -26,9 +26,9 @@ const Assistant = () => {
 
   const handleLanguageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setLanguage(e.target.value as Language);
+      setLanguage?.(e.target.value as Language);
     },
-    []
+    [setLanguage]
   );
 
   return (
@@ -63,7 +63,7 @@ const Assistant = () => {
       <div className="bg-transparent fixed top-3 left-3">
         {showAssistant ? (
           <button
-            onClick={() => setShowAssistant(false)}
+            onClick={() => setShowAssistant?.(false)}
             className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors w-10 h-10 cursor-pointer"
           >
             <div className="flex items-center justify-center">
@@ -76,7 +76,7 @@ const Assistant = () => {
           </button>
         ) : (
           <button
-            onClick={() => setShowAssistant(true)}
+            onClick={() => setShowAssistant?.(true)}
             className="!bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-colors w-10 h-10 cursor-pointer"
           >
             <div className="flex items-center justify-center">
