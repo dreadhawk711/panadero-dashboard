@@ -37,18 +37,18 @@ const PdfViewer = () => {
         <div className="flex bg-white border border-gray-300 rounded-lg shadow-lg">
           <button
             onClick={() => setScale((s) => Math.max(s - 0.1, 0.3))}
-            className="px-3 py-2 hover:bg-gray-100 border-r !rounded-r-none text-gray-700 w-[50px] focus:!outline-none"
+            className="px-3 py-2 hover:bg-gray-100 text-gray-700 w-[50px] focus:!outline-none"
           >
             −
           </button>
-          <div className="px-2 py-2 bg-gray-50 w-[50px] !rounded-none flex items-center justify-center !border-l !border-r border-gray-300">
+          <div className="px-2 py-2 bg-gray-50 w-[50px] !rounded-none flex items-center justify-center border-gray-300">
             <p className="text-center text-sm font-medium text-gray-700">
               {Math.round(scale * 100)}%
             </p>
           </div>
           <button
             onClick={() => setScale((s) => Math.min(s + 0.1, 2))}
-            className="px-3 py-2 hover:bg-gray-100 border-l !rounded-l-none text-gray-700 w-[50px] focus:!outline-none"
+            className="px-3 py-2 hover:bg-gray-100  text-gray-700 w-[50px] focus:!outline-none"
           >
             +
           </button>
@@ -59,8 +59,8 @@ const PdfViewer = () => {
           language === import.meta.env.VITE_ENGLISH_LANGUAGE
             ? englishMenu
             : language === import.meta.env.VITE_ROMANIAN_LANGUAGE
-            ? romanianMenu
-            : russianMenu
+              ? romanianMenu
+              : russianMenu
         }
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
       >
